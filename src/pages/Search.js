@@ -1,18 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Loading from '../components/Loading';
+import Header from '../components/Header';
 
 class Search extends React.Component {
   render() {
-    const { loadingAPI } = this.props;
     return (
-      <div data-testid="page-search">{ loadingAPI ? <Loading /> : 'Um teste' }</div>
+      <div
+        data-testid="page-search"
+      >
+        <Header />
+      </div>
     );
   }
 }
-
-Search.propTypes = {
-  loadingAPI: PropTypes.bool,
-}.isRequired;
 
 export default Search;

@@ -17,8 +17,8 @@ class App extends React.Component {
     this.saveInformation = this.saveInformation.bind(this);
     this.state = {
       loginName: '',
-      disableButton: true,
       loadingAPI: false,
+      disableButton: true,
     };
   }
 
@@ -29,20 +29,21 @@ class App extends React.Component {
     }, () => this.validationCheck());
   }
 
+  async saveInformation() {
+    const { loginName } = this.state;
+    this.setState({
+      loadingAPI: true,
+    }, async () => {
+      await createUser({ name: loginName });
+      this.setState({ loadingAPI: false });
+    });
+  }
+
   validationCheck() {
     const { loginName } = this.state;
     const validateLength = 3;
     if (loginName.length >= validateLength) this.setState({ disableButton: false });
     else this.setState({ disableButton: true });
-  }
-
-  async saveInformation() {
-    const { loginName } = this.state;
-    this.setState({
-      loadingAPI: true,
-    });
-    await createUser({ name: loginName });
-    this.setState({ loadingAPI: false });
   }
 
   render() {
@@ -51,16 +52,39 @@ class App extends React.Component {
       <BrowserRouter>
         <p>TrybeTunes</p>
         <Switch>
-          <Route path="/profile/edit" component={ ProfileEdit } />
-          <Route path="/album/:id" component={ Album } />
-          <Route path="/profile" component={ Profile } />
-          <Route path="/favorites" component={ Favorites } />
+          <Route
+            path="/profile/edit"
+            render={ (props) => (
+              <ProfileEdit
+                { ...props }
+              />) }
+          />
+          <Route
+            path="/profile"
+            render={ (props) => (
+              <Profile
+                { ...props }
+              />) }
+          />
+          <Route
+            path="/album/:id"
+            render={ (props) => (
+              <Album
+                { ...props }
+              />) }
+          />
+          <Route
+            path="/favorites"
+            render={ (props) => (
+              <Favorites
+                { ...props }
+              />) }
+          />
           <Route
             path="/search"
             render={ (props) => (
               <Search
                 { ...props }
-                loadingAPI={ loadingAPI }
               />) }
           />
           <Route
@@ -73,6 +97,7 @@ class App extends React.Component {
                 handleChange={ this.handleChange }
                 disableButton={ disableButton }
                 createUser={ this.saveInformation }
+                loadingAPI={ loadingAPI }
               />) }
           />
           <Route exact path="*" component={ NotFound } />
