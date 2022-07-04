@@ -31,7 +31,6 @@ class Search extends React.Component {
     const { searchName } = this.state;
     this.setState({ apiLoading: true, nameSeached: searchName }, async () => {
       const musicArray = await searchAlbumsAPI(searchName);
-      console.log(musicArray);
       this.setState({ apiLoading: false, musicArray, searchName: '', hasSeached: true });
     });
     event.preventDefault();
