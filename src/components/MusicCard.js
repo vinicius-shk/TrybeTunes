@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 class MusicCard extends React.Component {
   render() {
     const { musicList } = this.props;
-    const [primeiraPos, ...resto] = musicList;
-    console.log(primeiraPos);
+    console.log(musicList);
+    const [, ...resto] = musicList;
     return (
       <div>
         { resto.map(({ trackName, previewUrl, trackId }) => (
