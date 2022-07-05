@@ -28,6 +28,7 @@ class Album extends React.Component {
       const musics = await getMusics(id);
       this.setState({ musicList: musics }, () => {
         const { musicList } = this.state;
+        const [, ...resto] = musicList;
         const {
           artworkUrl100,
           artistName,
@@ -37,7 +38,13 @@ class Album extends React.Component {
             <img src={ artworkUrl100 } alt={ artistName } />
             <p data-testid="artist-name">{ artistName }</p>
             <p data-testid="album-name">{ collectionName }</p>
-            <MusicCard musicList={ musicList } />
+            {resto
+              .map((musicObj) => (
+                <MusicCard
+                  musicObj={ musicObj }
+                  key={ musicObj.trackId }
+                />
+              ))}
           </>
         );
         this.setState({ isLoading: false, element: artistCard });
