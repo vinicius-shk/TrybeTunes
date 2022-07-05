@@ -7,7 +7,7 @@ class MusicCard extends React.Component {
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
-    this.saveMusic = this.saveMusic.bind(this);
+    this.handleMusic = this.handleMusic.bind(this);
     this.state = {
       checked: false,
       loadingApi: false,
@@ -21,19 +21,19 @@ class MusicCard extends React.Component {
     this.setState({ checked: favouriteCond });
   }
 
-  onChange({ target }) {
-    const { name, value, checked } = target;
-    const newValue = target.type === 'checkbox' ? checked : value;
-    this.setState({ [name]: newValue });
-  }
-
-  saveMusic({ target }) {
+  handleMusic({ target }) {
     this.setState({ loadingApi: true }, async () => {
       const { musicObj } = this.props;
       if (target.checked) await addSong(musicObj);
       else await removeSong(musicObj);
       this.setState({ loadingApi: false });
     });
+  }
+
+  onChange({ target }) {
+    const { name, value, checked } = target;
+    const newValue = target.type === 'checkbox' ? checked : value;
+    this.setState({ [name]: newValue });
   }
 
   render() {
@@ -61,7 +61,7 @@ class MusicCard extends React.Component {
             data-testid={ `checkbox-music-${trackId}` }
             checked={ checked }
             onChange={ this.onChange }
-            onClick={ this.saveMusic }
+            onClick={ this.handleMusic }
           />
         </label>
       </div>
