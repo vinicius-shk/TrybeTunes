@@ -8,6 +8,7 @@ class MusicCard extends React.Component {
     super();
     this.onChange = this.onChange.bind(this);
     this.handleMusic = this.handleMusic.bind(this);
+    this.renderMusicCard = this.renderMusicCard.bind(this);
     this.state = {
       checked: false,
       loadingApi: false,
@@ -36,11 +37,11 @@ class MusicCard extends React.Component {
     this.setState({ [name]: newValue });
   }
 
-  render() {
+  renderMusicCard() {
     const { musicObj } = this.props;
     const { trackName, previewUrl, trackId } = musicObj;
-    const { checked, loadingApi } = this.state;
-    const element = (
+    const { checked } = this.state;
+    return (
       <div>
         <p>{ trackName }</p>
         <audio data-testid="audio-component" src={ previewUrl } controls>
@@ -66,9 +67,13 @@ class MusicCard extends React.Component {
         </label>
       </div>
     );
+  }
+
+  render() {
+    const { loadingApi } = this.state;
     return (
       <div>
-        { loadingApi ? <Loading /> : element }
+        { loadingApi ? <Loading /> : this.renderMusicCard() }
       </div>
     );
   }

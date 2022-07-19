@@ -9,7 +9,7 @@ class Favorites extends React.Component {
     super();
     this.getFavourites = this.getFavourites.bind(this);
     this.buildComponent = this.buildComponent.bind(this);
-    this.updateFavourites = this.updateFavourites.bind(this);
+    this.renderComponent = this.renderComponent.bind(this);
     this.state = {
       isLoading: true,
       favorites: [],
@@ -20,29 +20,32 @@ class Favorites extends React.Component {
     this.getFavourites();
   }
 
-  // componentDidUpdate() {
-  //   this.updateFavourites();
-  // }
+  componentDidUpdate() {
+    this.getFavourites();
+  }
 
   async getFavourites() {
     const favorites = await getFavoriteSongs();
-    this.setState({ favorites, isLoading: false });
-  }
-
-  updateFavourites() {
-    this.setState({ isLoading: true });
-    this.getFavourites();
+    setTimeout(() => {
+      this.setState({ favorites, isLoading: false });
+    });
   }
 
   buildComponent() {
     const { favorites } = this.state;
-    const element = favorites.map((song) => (
+    return favorites.map((song) => (
       <MusicCard
         key={ song.trackId }
         musicObj={ song }
         favouriteSongs={ favorites }
       />));
-    return element;
+  }
+
+  renderComponent() {
+    return (
+      <div data-testid="page-favorites">
+        { this.buildComponent() }
+      </div>);
   }
 
   render() {
@@ -50,9 +53,7 @@ class Favorites extends React.Component {
     return (
       <>
         <Header />
-        <div data-testid="page-favorites">
-          { isLoading ? <Loading /> : this.buildComponent() }
-        </div>
+        { isLoading ? <Loading /> : this.renderComponent() }
       </>
     );
   }

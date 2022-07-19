@@ -11,23 +11,26 @@ class Album extends React.Component {
     super();
     this.musicFunc = this.musicFunc.bind(this);
     this.getFavourites = this.getFavourites.bind(this);
+    this.renderAlbum = this.renderAlbum.bind(this);
     this.state = {
       musicList: [],
       isLoading: true,
-      element: <span />,
+      favorites: undefined,
     };
   }
 
   componentDidMount() {
+    const oneSecond = 1000;
     this.musicFunc();
+    this.getFavourites();
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+    }, oneSecond);
   }
 
-  getFavourites() {
-    this.setState({ isLoading: true }, async () => {
-      const favourites = await getFavoriteSongs();
-      this.setState({ isLoading: false });
-      return favourites;
-    });
+  async getFavourites() {
+    const favorites = await getFavoriteSongs();
+    this.setState({ favorites });
   }
 
   async musicFunc() {
@@ -36,43 +39,43 @@ class Album extends React.Component {
     const { id } = params;
     try {
       const musics = await getMusics(id);
-      const favourites = await getFavoriteSongs();
-      this.setState({ musicList: musics }, () => {
-        const { musicList } = this.state;
-        const [, ...resto] = musicList;
-        const {
-          artworkUrl100,
-          artistName,
-          collectionName } = musicList[0];
-        const artistCard = (
-          <>
-            <img src={ artworkUrl100 } alt={ artistName } />
-            <p data-testid="artist-name">{ artistName }</p>
-            <p data-testid="album-name">{ collectionName }</p>
-            {resto
-              .map((musicObj) => (
-                <MusicCard
-                  musicObj={ musicObj }
-                  key={ musicObj.trackId }
-                  favouriteSongs={ favourites }
-                />
-              ))}
-          </>
-        );
-        this.setState({ isLoading: false, element: artistCard });
-      });
+      this.setState({ musicList: musics });
     } catch (error) {
       console.log(error);
     }
   }
 
+  renderAlbum() {
+    const { musicList, favorites } = this.state;
+    const {
+      artworkUrl100,
+      artistName,
+      collectionName } = musicList[0];
+    const [, ...resto] = musicList;
+    return (
+      <>
+        <img src={ artworkUrl100 } alt={ artistName } />
+        <p data-testid="artist-name">{ artistName }</p>
+        <p data-testid="album-name">{ collectionName }</p>
+        {resto
+          .map((musicObj) => (
+            <MusicCard
+              musicObj={ musicObj }
+              key={ musicObj.trackId }
+              favouriteSongs={ favorites }
+            />
+          ))}
+      </>
+    );
+  }
+
   render() {
-    const { isLoading, element } = this.state;
+    const { isLoading } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
         <div>
-          { isLoading ? <Loading /> : element }
+          { isLoading ? <Loading /> : this.renderAlbum() }
         </div>
       </div>
     );
