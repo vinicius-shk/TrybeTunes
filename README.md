@@ -6,7 +6,6 @@ Projeto TrybeTunes é uma pagina web que possibilita o usuário buscar musicas, 
 
 - **React.js**
 - **Javascript**
-- **Node.js**
 
 ### Para rodar localmente
 
