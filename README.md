@@ -1,10 +1,35 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# TrybeTunes
+
+Projeto TrybeTunes é uma pagina web que possibilita o usuário buscar musicas, artistas e álbuns atraves de buscar e criar playlists com suas músicas favoritas.
+
+### Tecnologias utilizadas
+
+- **React.js**
+- **Javascript**
+
+### Para rodar localmente
+
+Clone o projeto para o seu repositório local.
+
+```
+git clone git@github.com:vinicius-shk/TrybeTunes.git
+
+```
+
+Acesse a raiz do projeto e rode os comandos para instalar as dependências
+
+```
+cd TrybeTunes && npm i
+
+```
+
+Inicie o servidor de desenvolvimento
+
+```
+npm start
+
+```
+
+Página da aplicação disponível na porta **3000** em [https://localhost:3000](https://localhost:3000/)
+
+
